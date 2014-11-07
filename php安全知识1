@@ -1,0 +1,50 @@
+-
+=
+
+学习笔记
+
+1、basename(path,suffix)可以解决目录跨越的问题
+实例：
+<?php
+$path = "/testweb/home.php";
+
+//显示带有文件扩展名的文件名
+echo basename($path);  //home.php
+
+//显示不带有文件扩展名的文件名
+echo basename($path,".php");  //home
+?> 
+
+2、记得初始化【防止变量污染】
+实例：
+<?php 
+   $arr = array();
+?>
+
+3、服务端只接受合法的数据
+实例：
+<form action="process.php" method="POST">
+  Please select a color:
+  <select name="color">
+    <option value="red">red</option>
+    <option value="green">green</option>
+    <option value="blue">blue</option>
+  </select>
+  <input type="submit" />
+</form>
+<?php
+
+  $color = array();
+  switch($col = $_POST['color']){
+    case 'red':
+    case 'green':
+    case 'blue':
+    $color['color'] = $_POST['color'];
+    break;
+    default:
+    exit('数据非法');
+  
+  }
+
+?>
+
