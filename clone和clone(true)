@@ -1,0 +1,61 @@
+-
+=
+
+学习笔记
+
+【推荐】jquery clone 与 clone(true) 的区别
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"   "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <script>
+  $(document).ready(function(){
+    $("button").click(function(){
+      $(this).clone(true).insertAfter(this);
+    });
+  });
+  </script>
+</head>
+<body>
+  <button>Clone Me!</button>
+</body>
+</html>
+  
+
+（1）这个例子中 clone , clone(true)的区别在于，clone(ture)除了克隆集合，还会克隆click句柄
+
+（2）现象就是：clone的 Clone Me! 无法继续点击克隆。但是clone(true)出来的 Clone Me! 可以继续克隆，和原本按钮没有区别。
+
+如上是ITeye中的经验，今天确实深刻感悟了一番。差点儿又写出了一大堆冗余代码。 过程如下： 
+
+<li class="more_box"></li>
+<li class="tab_more">
+     <div id="more_list">
+          <a href="#"><b>绩效考核</b></a>
+          <a href="#"><b>管理考核</b></a>
+          <a href="#"><b>岗位分析</b></a>
+          <a href="#"><b>系统维护</b></a>
+          <a href="#"><b>个人设置</b></a>
+     </div>
+</li>
+
+
+需要实现的效果是id="more_list"下的a单击后，将a克隆并添加到<li class="more_box"></li>之中。
+
+$("#more_list>a").click(function(){
+    $(".more_box").html($(this).clone(true)).show().click();
+})
+
+
+
+结果确实实现了克隆，但li元素本身的click事件怎么也运行不了了。(以上述原理，当clone(true)时，将a的click事件也复制过去了，所以li单击时触发的是a的click的事件，原本的事件被覆盖)
+于是乎找了一下午原因终于发现了。
+
+去掉clone(true),中的true即可（只克隆元素，不克隆事件）。
+$("#more_list>a").click(function(){
+    $(".more_box").html($(this).clone()).show().click();
+});
+
+一切搞定~~~
+
+from:http://blog.baiwand.com/?post=27
